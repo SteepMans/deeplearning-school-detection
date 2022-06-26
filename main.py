@@ -1,5 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import FileResponse
 from typing import List
+import os
 from fastapi.middleware.cors import CORSMiddleware
 
 import torch
@@ -44,3 +46,7 @@ async def yolo_upload_files(files: List[UploadFile]):
 async def yolo_url(url: str):
     results = model(url)
     return results.pandas().xywh[0].to_dict('records')
+
+@app.get("/file/{name_file}")
+def get_file(name_file: str):
+    return FileResponse(path=os.getcwd() + "/" + name_file)

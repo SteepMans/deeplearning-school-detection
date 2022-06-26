@@ -2,6 +2,7 @@
   <v-app dark>
     <v-container>
       <Upload :dialog.sync="uploadDialog" :multiple="true" @filesUploaded="processUpload($event)" />
+      <ImagesPredict v-if="images.length > 0" :images="images" />
     </v-container>
   </v-app>
 </template>
@@ -12,7 +13,8 @@ export default {
   
   data () {
     return {
-      uploadDialog: true
+      uploadDialog: true,
+      images: []
     }
   },
 
@@ -39,6 +41,7 @@ export default {
         }
 
         this.$store.commit('images/push', data);
+        this.images.push(data);
       }
     }
   }
