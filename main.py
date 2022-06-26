@@ -38,14 +38,14 @@ async def yolo_upload_files(files: List[UploadFile]):
     for file in files:
         img = load_image_into_numpy_array(await file.read())
         predict = model(img)
-        results.append(predict.pandas().xywh[0].to_dict('records'))
+        results.append(predict.pandas().xyxy[0].to_dict('records'))
 
     return results 
 
 @app.post("/v1/yolov5/")
 async def yolo_url(url: str):
     results = model(url)
-    return results.pandas().xywh[0].to_dict('records')
+    return results.pandas().xyxy[0].to_dict('records')
 
 @app.get("/file/{name_file}")
 def get_file(name_file: str):

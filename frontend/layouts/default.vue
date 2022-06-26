@@ -36,9 +36,25 @@ export default {
       for (var [index, file] of files.entries()) {
         var data = {
           image: file,
-          url: URL.createObjectURL(files[0]),
+          url: URL.createObjectURL(file),
           predict: predicts.data[index]
         }
+
+        const promise = await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = data.url;
+
+          img.onload = () => {
+            const width  = img.naturalWidth;
+            const height = img.naturalHeight; 
+
+            resolve({width, height});
+          };
+
+          img.onerror = reject;
+        });
+
+        data.naturalSize = promise;
 
         this.$store.commit('images/push', data);
         this.images.push(data);
