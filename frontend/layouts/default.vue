@@ -2,7 +2,7 @@
   <v-app dark>
     <v-container>
       <Upload :dialog.sync="uploadDialog" :multiple="true" @filesUploaded="processUpload($event)" />
-      <ImagesPredict v-if="images.length > 0" :images="images" />
+      <ImagesPredict v-if="images.length > 0" @startUpload="openUpload" :images="images" />
     </v-container>
   </v-app>
 </template>
@@ -19,6 +19,10 @@ export default {
   },
 
   methods: {
+    openUpload() {
+      this.uploadDialog = true;
+    },
+
     async processUpload(files) {
       var formData = new FormData();
 
