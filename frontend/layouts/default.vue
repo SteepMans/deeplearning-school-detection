@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <v-container>
-      <Upload :dialog.sync="uploadDialog" :multiple="true" @filesUploaded="processUpload($event)" />
+      <Upload :dialog.sync="uploadDialog" :required="true" :multiple="true" @filesUploaded="processUpload($event)" />
       <ImagesPredict v-if="images.length > 0" @startUpload="openUpload" :images="images" />
     </v-container>
   </v-app>

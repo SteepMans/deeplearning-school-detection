@@ -125,10 +125,9 @@ export default {
 
 <style lang="scss">
 .predict {
-    height: 95vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display:flex;
+    margin-left: 30vw;
+    margin-top: 10vh;
 
     &__images {
         position: relative;
@@ -144,7 +143,8 @@ export default {
     &__text {
         white-space: nowrap;
         font-weight: 500;
-        font-size: 60%;
+        font-size: 90%;
+        line-height: 1.5vh;
         text-transform: uppercase;
         text-shadow: 1px 1px 1px #000;
     }

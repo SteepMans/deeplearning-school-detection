@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import FileResponse
 from typing import List
 import os
@@ -7,6 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import torch
 import numpy
 import cv2
+
+from model import *
 
 origins = [
     "http://localhost",
@@ -30,6 +32,19 @@ def load_image_into_numpy_array(data):
     frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
     cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     return frame
+
+@app.post("/v1/model/uploads")
+async def custom_model_torch_uploads(model_name: str, files: List[UploadFile]):
+    results = []
+
+    try:
+        model = Model(model_name, confidence = 0.5)
+    except Exception as exp:
+        print(exp)
+        raise HTTPException(status_code=404, detail=str(exp))
+
+
+    return results
 
 @app.post("/v1/yolov5/uploads")
 async def yolo_upload_files(files: List[UploadFile]):

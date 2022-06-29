@@ -2,3 +2,5 @@ fastapi[all]
 uvicorn[standard]
 opencv-python
 torch
+torchvision
+imutils

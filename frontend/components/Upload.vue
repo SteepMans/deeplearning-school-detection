@@ -1,5 +1,5 @@
 <template>
-  <v-dialog @click:outside="closeDialog" :value="dialog" max-width="450px">
+  <v-dialog @click:outside="closeDialog" :persistent="requiredUpload" :value="dialog" max-width="450px">
     <v-card
       @drop.prevent="onDrop($event)"
       @dragover.prevent="dragover = true"
@@ -79,11 +79,16 @@ export default {
     multiple: {
       type: Boolean,
       default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
 
   data() {
     return {
+      requiredUpload: false,
       dragover: false,
       uploadedFiles: [],
       notification: [],
@@ -104,6 +109,8 @@ export default {
         }
       }
     }, 1000);
+
+    this.requiredUpload = this.required;
   },
 
   methods: {
@@ -121,8 +128,10 @@ export default {
     },
 
     closeDialog() {
-      this.uploadedFiles = [];
-      this.$emit("update:dialog", false);
+      if (!this.requiredUpload) {
+        this.uploadedFiles = [];
+        this.$emit("update:dialog", false);
+      }
     },
 
     removeFile(fileName) {
@@ -162,6 +171,7 @@ export default {
         this.addFiles(e.dataTransfer.files);
       }
     },
+
     submit() {
       if (!this.uploadedFiles.length > 0) {
         this.$store.dispatch("notification/add", {
@@ -170,6 +180,7 @@ export default {
         });
       } else {
         this.$emit("filesUploaded", this.uploadedFiles);
+        this.requiredUpload = false;
         this.closeDialog();
       }
     }
