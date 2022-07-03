@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import FileResponse
 from typing import List
+
 import os
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -35,10 +36,29 @@ def load_image_into_numpy_array(data):
 
 @app.post("/v1/model/uploads")
 async def custom_model_torch_uploads(model_name: str, files: List[UploadFile]):
-    results = []
 
     try:
+        data = list()
         model = Model(model_name, confidence = 0.5)
+
+        for file in files:
+            image = load_image_into_numpy_array(await file.read())
+            predict = model.predict(image)
+            result = list()
+
+            for i in range(len(predict["boxes"])):
+                temp = dict()
+                box = predict["boxes"][i].detach().cpu().numpy().tolist()
+                (temp["xmin"], temp["xmax"], temp["ymin"], temp["ymax"]) = box
+                temp["label"] = int(predict["labels"][i])
+                temp["name"] = CLASSES[temp["label"]]
+                temp["confidence"] = float(predict["scores"][i])
+                
+                result.append(temp)
+
+            data.append(result)
+
+        return data
     except Exception as exp:
         print(exp)
         raise HTTPException(status_code=404, detail=str(exp))

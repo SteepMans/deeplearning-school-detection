@@ -41,14 +41,14 @@ class Model():
 		self.model.eval()
 		self.confidence = confidence
 
-	def predict(image):
+	def predict(self, image):
 		image = image.transpose((2, 0, 1))
 		image = np.expand_dims(image, axis=0)
 		image = image / 255.0
 		image = torch.FloatTensor(image)
 
 		image = image
-		detections = model(image)[0]
+		detections = self.model(image)[0]
 
 		for i in range(0, len(detections["boxes"])):
 			confidence = detections["scores"][i]
@@ -59,7 +59,6 @@ class Model():
 				(startX, startY, endX, endY) = box.astype("int")
 				label = "{}: {:.2f}%".format(CLASSES[idx], confidence * 100)
 				print("[INFO] {}".format(label))
-				print(detections["boxes"][i])
 		
 		return detections
 
