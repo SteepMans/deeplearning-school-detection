@@ -125,9 +125,10 @@ export default {
 
 <style lang="scss">
 .predict {
-    display:flex;
-    margin-left: 30vw;
-    margin-top: 10vh;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &__images {
         position: relative;

@@ -9,7 +9,7 @@ import torch
 import numpy
 import cv2
 
-from model import *
+from .model import *
 
 origins = [
     "http://localhost",
@@ -36,7 +36,6 @@ def load_image_into_numpy_array(data):
 
 @app.post("/v1/model/uploads")
 async def custom_model_torch_uploads(model_name: str, files: List[UploadFile]):
-
     try:
         data = list()
         model = Model(model_name, confidence = 0.5)
