@@ -13,7 +13,9 @@ from .model import *
 
 origins = [
     "http://localhost",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://deeplearning.steepman.pw:3001",
+    "http://deeplearning.steepman.pw"
 ]
 
 app = FastAPI()
