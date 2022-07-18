@@ -3,8 +3,25 @@ version: '3.8'
 services:
   fast-api-backend:
     build: .
-    command: uvicorn app.main:app --host 0.0.0.0 --port 3000
+    command: uvicorn app.main:app --host 0.0.0.0 --port 3001
     volumes:
       - .:/app
     ports:
-      - 3000:3000
+      - 3001:3001
+  
+  nuxt:
+    build: ./frontend/
+    restart: always
+    ports:
+      - "3000:3000"
+    command:
+      "npm run start"
+
+  nginx:
+    image: nginx:1.19
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - nuxt

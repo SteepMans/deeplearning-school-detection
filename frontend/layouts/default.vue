@@ -29,8 +29,8 @@ export default {
       for (var file of files) {
         formData.append('files', file);
       }
-      
-      const predicts = await this.$axios.post('http://127.0.0.1:8000/v1/yolov5/uploads', formData, {
+
+      const predicts = await this.$axios.post(`http://${window.location.hostname}:3001/v1/yolov5/uploads`, formData, {
         headers: {
           'accept': 'application/json',
           'Content-Type': 'multipart/form-data'
