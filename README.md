@@ -12,3 +12,10 @@ docker-compose build && docker-compose up -d
 # Demonstration
 <p style="align: center;"><img src="https://i.imgur.com/h5iYn39.png", width=500></p>
 <p style="align: center;"><img src="https://i.imgur.com/P0PEyXf.png", width=500></p>
+
+# Technology stack
+:white_check_mark: FastAPI <br>
+:white_check_mark: Nuxt <br>
+:white_check_mark: Vuetify <br>
+:white_check_mark: Docker <br>
+:white_check_mark: Nginx <br>
